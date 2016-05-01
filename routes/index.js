@@ -9,7 +9,7 @@ var Watson = require("../lib/WatsonAI.js");
  * { board : [[number, ...], ...], size : number, last : { x : number, y : number } } }
  *
  * Response payload will be:
- * { x : number, y : number, color: number }
+ * { x : number, y : number, color: number, pass : Boolean }
  */
 
 router.post('/watson', function (req, res, next) {
