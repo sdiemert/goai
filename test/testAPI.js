@@ -17,12 +17,12 @@ describe("API Tests", function () {
     beforeEach(function(done){
 
         obj = {
-            last : {x: 1, y: 1, color: 1, pass: false},
-            board: [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+            last : {x: 1, y: 1, c: 1, pass: false},
+            board: [[0, 0, 0], [0, 0, 0], [0, 0, 0]],
+            size : 3
         };
 
-        server = require('../app.js')(true); 
-
+        server = require('../app.js')(true);
         api = st('http://localhost:3000');
         done(); 
 
@@ -47,27 +47,18 @@ describe("API Tests", function () {
                 });
         });
 
-        it("should echo the input", function (done) {
+        it("should fail on incorrect input", function (done) {
+
+            delete obj.last.x;
+
             api.post("/")
                 .send(obj)
-                .expect(200)
-                .end(function(err, res){
-                    assert.equal(err, null);
-                    assert.deepEqual(res.body, {x : 1, y : 1, c : 1, pass : false});
-                    done(err);
+                .expect(400)
+                .end(function(e, r){
+                    done(); 
                 });
         });
         
-        it("should echo the input", function (done) {
-            api.post("/")
-                .send(obj)
-                .expect(200)
-                .end(function(err, res){
-                    assert.equal(err, null);
-                    assert.deepEqual(res.body, {x : 1, y : 1, c : 1, pass : false});
-                    done(err);
-                });
-        });
     });
 
 });
