@@ -1,5 +1,7 @@
 # GO AI
 
+[![Build Status](https://travis-ci.org/sdiemert/goai.svg?branch=master)](https://travis-ci.org/sdiemert/goai) <br>
+
 A simple GO AI web service. 
 
 This application is meant to provide an external web service that students in UVic's SENG 299 class can program against for their term project.
