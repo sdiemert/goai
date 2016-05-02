@@ -68,4 +68,49 @@ The fields are:
 * `c` : the color of the token being placed (0 - None, 1 - Black, or 2 - White)
 * `pass` : true if the AI passed, false otherwise. 
     + if the AI passed then the `c` field will be set to 0 (None). 
+    
+## Design and Implementation Guide
 
+The following UML class diagram describes the basic structure of the web application. 
+
+![Basic Class Diagram](/doc/main-class.png "Main Class Diagram")
+
+The basic interaction for handling a request is illustrated by the following sequence diagram: 
+
+![Basic Class Diagram](/doc/default-sequence.png "Sequence Diagram")
+
+
+Requests are handled by the ExpressRouter (defined in `routes/index.js`). AI implementations must extend the abstract AI class. 
+ 
+The model objects `Board` and `Move` represent the objects that the AI uses to communicate with the web interface. 
+
+AI implementations may use their own internal model objects provided they can convert to and from the `Board` and `Move` objects in used by the ExpressRouter. 
+
+New AI's should: 
+
+* Implement their own class that extends the `AI` class. 
+* Choose an appropriate name for the RESTful API path (e.g. `/random` would indicate the AI randomly picks a move). 
+* Write a POST request handler function in the ExpressRouter that calls their AI. 
+* Implement unit tests and integration tests in `test/` using the Mocha test framework.
+    + These should at minimum ensure that that the `move()` function of the AI returns an appropriate `Move` object for all equivalence classes of inputs. 
+
+
+### Testing
+
+Unit and integration tests are written using the Mocha test framework.
+
+These tests are run on the Travis continuous integration tool: [https://travis-ci.org/sdiemert/goai](https://travis-ci.org/sdiemert/goai). 
+
+Copyright 2016 Simon Diemert
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use the artifacts in this repository 
+except in compliance with the License. Obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
