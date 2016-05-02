@@ -3,7 +3,6 @@ var express = require('express');
 var router  = express.Router();
 
 var AIUtils = require('../lib/AIUtils.js');
-var Watson = require("../lib/WatsonAI.js");
 
 /* The structure of request.body is:
  * { board : [[number, ...], ...], size : number, last : { x : number, y : number, c : number, pass : boolean } } }
