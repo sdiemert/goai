@@ -12,14 +12,12 @@ var Watson = require("../lib/WatsonAI.js");
  * { x : number, y : number, color: number, pass : Boolean }
  */
 
-router.post('/watson', function (req, res, next) {
-
-    var B = AIUtils.boardFromRequest(req.body);
+/**
+ * Route echo's the move that was sent. 
+ */
+router.post('/', function (req, res, next) {
     var last = AIUtils.lastMoveFromRequest(req.body);
-
-    var W = new Watson();
-    
-    res.json(W.move(B, last));
+    res.json(last);
 
 });
 
