@@ -15,7 +15,7 @@ At this point, AIs are state-less, they do not store a history of requests.
 Each HTTP route is serviced by a different AI. The current routes are: 
   
 * `/` : Default route, echos the request by returning the last move. 
-* ??? : TBA 
+* `/random` : Randomly selects an empty spot on the board and places a token.
    
 Access the AI by making an **HTTP POST** request to the respective route. 
 
