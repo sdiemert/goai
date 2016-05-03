@@ -30,7 +30,7 @@ describe("AIUtils", function () {
 
     });
 
-    describe("isValidBody()", function () {
+    describe("#isValidBody()", function () {
 
 
         it("should return false on falsy object", function () {

@@ -60,5 +60,38 @@ describe("API Tests", function () {
         });
         
     });
+    
+    describe("/random", function(){
+        
+         it("should return a valid move", function (done) {
+            api.post("/random")
+                .send(obj)
+                .expect(200)
+                .end(function(err, res){
+                    assert.equal(err, null);
+                    assert(res.body.x < obj.size);
+                    assert(res.body.x >= 0);
+                    assert(res.body.y < obj.size);
+                    assert(res.body.y >= 0);
+                    assert.equal(res.body.c, 2);
+                    assert.equal(res.body.pass, false);
+                    done(err);
+                });
+        });
+        
+        it("should fail on incorrect input", function(done){
+            
+            obj.board = [[0,0,0]];
+
+            api.post("/random")
+                .send(obj)
+                .expect(400)
+                .end(function(e, r){
+                    done(); 
+            });
+            
+        });
+        
+    });
 
 });
