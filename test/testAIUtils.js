@@ -143,6 +143,11 @@ describe("AIUtils", function () {
             obj.last.c = 20;
             assert.equal(aiutils.isValidBody(obj), false);
         });
+
+        it("should return false for invalid board given last move", function() {
+            obj.last.c = 1;
+            assert.equal(aiutils.isValidBody(obj), false);
+        });
         
         it("should return true on OK case", function(){
             assert.equal(aiutils.isValidBody(obj), true);

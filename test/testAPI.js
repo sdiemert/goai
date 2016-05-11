@@ -18,7 +18,7 @@ describe("API Tests", function () {
 
         obj = {
             last : {x: 1, y: 1, c: 1, pass: false},
-            board: [[0, 0, 0], [0, 0, 0], [0, 0, 0]],
+            board: [[0, 0, 0], [0, 1, 0], [0, 0, 0]],
             size : 3
         };
 
