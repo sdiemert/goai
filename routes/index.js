@@ -5,6 +5,7 @@ var router  = express.Router();
 var AIUtils = require('../lib/AIUtils.js');
 
 var AIRandom = require("../lib/AIRandom.js");
+var AIMaximizeLiberties = require("../lib/AIMaximizeLiberties.js");
 
 /* The structure of request.body is:
  * { board : [[number, ...], ...], size : number, last : { x : number, y : number, c : number, pass : boolean } } }
@@ -41,6 +42,23 @@ router.post("/random", function(req, res, next){
     var board = AIUtils.boardFromRequest(req.body);
     
     var ai = new AIRandom('random');
+
+    var move = ai.move(board, last);
+
+    if (move) {
+        return res.status(200).json(move.toObject());
+    } else {
+        return res.status(500).send("Error");
+    }
+
+});
+
+router.post("/maximizeLiberties", function(req, res, next){
+
+    var last  = AIUtils.lastMoveFromRequest(req.body);
+    var board = AIUtils.boardFromRequest(req.body);
+    
+    var ai = new AIMaximizeLiberties('maximizeLiberties');
 
     var move = ai.move(board, last);
 
