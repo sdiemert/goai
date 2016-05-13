@@ -16,6 +16,7 @@ Each HTTP route is serviced by a different AI. The current routes are:
   
 * `/` : Default route, echos the request by returning the last move. 
 * `/random` : Randomly selects an empty spot on the board and places a token.
+* `/maxLibs` : Selects an empty spot with the highest possible liberties.
    
 Access the AI by making an **HTTP POST** request to the respective route. 
 

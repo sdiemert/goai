@@ -53,7 +53,7 @@ router.post("/random", function(req, res, next){
 
 });
 
-router.post("/maximizeLiberties", function(req, res, next){
+router.post("/maxLibs", function(req, res, next){
 
     var last  = AIUtils.lastMoveFromRequest(req.body);
     var board = AIUtils.boardFromRequest(req.body);
