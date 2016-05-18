@@ -3,7 +3,7 @@ var express = require('express');
 var router  = express.Router();
 var util = require('util');
 
-var AIUtils = require('../lib/AIUtils.js');
+var APIUtils = require('../lib/APIUtils.js');
 
 var AIRandom = require("../lib/AIRandom.js");
 var AIMaximizeLiberties = require("../lib/AIMaximizeLiberties.js");
@@ -30,13 +30,13 @@ var AIMaximizeLiberties = require("../lib/AIMaximizeLiberties.js");
 
 router.use(function(req, res, next){
 
-    if(!AIUtils.isValidBody(req.body)) {
+    if(!APIUtils.isValidBody(req.body)) {
         return res.status(400).send("Invalid request format.");
     }
     
     req.data = {};
-    req.data.last  = AIUtils.lastMoveFromRequest(req.body);
-    req.data.board = AIUtils.boardFromRequest(req.body);
+    req.data.last  = APIUtils.lastMoveFromRequest(req.body);
+    req.data.board = APIUtils.boardFromRequest(req.body);
 
     next();
     
@@ -53,7 +53,7 @@ router.use(function(req, res, next){
 //         }
 //     }
 
-//     var armies = AIUtils.findArmies(req.data.board);
+//     var armies = APIUtils.findArmies(req.data.board);
 //     for (var i = 0; i < armies.length; i++) {
 //         if (armies[i].liberties.length == 0)
 //             clearArmy(armies[i]);
@@ -69,7 +69,7 @@ router.use(function(req, res, next){
  */
 router.post('/', function (req, res, next) {
     
-    var last = AIUtils.lastMoveFromRequest(req.body);
+    var last = APIUtils.lastMoveFromRequest(req.body);
     res.status(200);
     return res.json(last.toObject());
     

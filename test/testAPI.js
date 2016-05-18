@@ -54,7 +54,7 @@ describe("API Tests", function () {
             api.post("/")
                 .send(obj)
                 .expect(400)
-                .end(function(e, r){
+                .end(function(err, res){
                     done(); 
                 });
         });
@@ -86,7 +86,7 @@ describe("API Tests", function () {
             api.post("/random")
                 .send(obj)
                 .expect(400)
-                .end(function(e, r){
+                .end(function(err, res){
                     done(); 
             });
             
@@ -119,7 +119,7 @@ describe("API Tests", function () {
             api.post("/maxLibs")
                 .send(obj)
                 .expect(400)
-                .end(function(e, r){
+                .end(function(err, res){
                     done(); 
             });
             
