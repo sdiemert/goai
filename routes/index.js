@@ -1,6 +1,7 @@
 "use strict";
 var express = require('express');
 var router  = express.Router();
+var util = require('util');
 
 var AIUtils = require('../lib/AIUtils.js');
 
@@ -14,15 +15,53 @@ var AIMaximizeLiberties = require("../lib/AIMaximizeLiberties.js");
  * { x : number, y : number, c: number, pass : Boolean }
  */
 
+// /**
+//  * Clears pieces off of the board that have been captured
+//  * 
+//  * @param board {Board.Board}
+//  * @param last {Board.Move}
+//  * @returns {Board.Board}
+//  */
+// function clearCaptures(board, last) {
+    
+    
+    
+// }
+
 router.use(function(req, res, next){
 
     if(!AIUtils.isValidBody(req.body)) {
         return res.status(400).send("Invalid request format.");
-    }else{
-        next(); 
     }
+    
+    req.data = {};
+    req.data.last  = AIUtils.lastMoveFromRequest(req.body);
+    req.data.board = AIUtils.boardFromRequest(req.body);
 
+    next();
+    
 });
+
+// THIS IS PROBABLY NOT NEEDED ANYMORE
+// router.use(function(req, res, next){
+
+//     var clearArmy = function(army) {
+//         console.log(util.inspect(army, false, null));
+//         for (var i = 0; i < army.tokens.length; i++) {
+//             var token = army.tokens[i].pos;
+//             req.data.board.board[token[0]][token[1]] = 0;
+//         }
+//     }
+
+//     var armies = AIUtils.findArmies(req.data.board);
+//     for (var i = 0; i < armies.length; i++) {
+//         if (armies[i].liberties.length == 0)
+//             clearArmy(armies[i]);
+//     }
+    
+//     next();
+
+// });
 
 /**
  * Route echo's the move that was sent but
@@ -37,13 +76,10 @@ router.post('/', function (req, res, next) {
 });
 
 router.post("/random", function(req, res, next){
-
-    var last  = AIUtils.lastMoveFromRequest(req.body);
-    var board = AIUtils.boardFromRequest(req.body);
     
     var ai = new AIRandom('random');
 
-    var move = ai.move(board, last);
+    var move = ai.move(req.data.board, req.data.last);
 
     if (move) {
         return res.status(200).json(move.toObject());
@@ -54,13 +90,10 @@ router.post("/random", function(req, res, next){
 });
 
 router.post("/maxLibs", function(req, res, next){
-
-    var last  = AIUtils.lastMoveFromRequest(req.body);
-    var board = AIUtils.boardFromRequest(req.body);
     
     var ai = new AIMaximizeLiberties('maximizeLiberties');
 
-    var move = ai.move(board, last);
+    var move = ai.move(req.data.board, req.data.last);
 
     if (move) {
         return res.status(200).json(move.toObject());
