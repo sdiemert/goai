@@ -133,12 +133,12 @@ describe("APIUtils", function () {
             assert.equal(apiutils.isValidBody(obj), false);
         });
 
-        it("should return false for falsy color", function () {
+        it("should return false for falsy colour", function () {
             delete obj.last.c;
             assert.equal(apiutils.isValidBody(obj), false);
         });
         
-        it("should return false for invalid color ", function () {
+        it("should return false for invalid colour ", function () {
             obj.last.c = 20;
             assert.equal(apiutils.isValidBody(obj), false);
         });

@@ -14,3 +14,16 @@
         }, ...
     ]
 }
+
+{ armies: 
+   [ { colour: 1,
+       tokens: 
+        [ { colour: 1,
+            position: [ 0, 1 ],
+            liberties: [ [ 0, 2 ], [ 1, 1 ] ] },
+          { colour: 1,
+            position: [ 1, 0 ],
+            liberties: [ [ 1, 1 ], [ 2, 0 ] ] },
+          { colour: 1, position: [ 0, 0 ], liberties: [] } ],
+       liberties: [ [ 0, 2 ], [ 1, 1 ], [ 2, 0 ] ],
+       size: 3 } ] }

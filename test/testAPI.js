@@ -61,10 +61,10 @@ describe("API Tests", function () {
         
     });
     
-    describe("/random", function(){
+    describe("/ai/random", function(){
         
          it("should return a valid move", function (done) {
-            api.post("/random")
+            api.post("/ai/random")
                 .send(obj)
                 .expect(200)
                 .end(function(err, res){
@@ -83,7 +83,7 @@ describe("API Tests", function () {
             
             obj.board = [[0,0,0]];
 
-            api.post("/random")
+            api.post("/ai/random")
                 .send(obj)
                 .expect(400)
                 .end(function(err, res){
@@ -97,7 +97,7 @@ describe("API Tests", function () {
     describe("/maxLibs", function(){
         
          it("should return a valid move", function (done) {
-            api.post("/maxLibs")
+            api.post("/ai/maxLibs")
                 .send(obj)
                 .expect(200)
                 .end(function(err, res){
@@ -116,7 +116,7 @@ describe("API Tests", function () {
             
             obj.board = [[0,0,0]];
 
-            api.post("/maxLibs")
+            api.post("/ai/maxLibs")
                 .send(obj)
                 .expect(400)
                 .end(function(err, res){
