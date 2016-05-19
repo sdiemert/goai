@@ -1,154 +1,112 @@
+"use strict";
 /**
- * Create by sdiemert on 2016-05-01
- *
+ * Create by lloydmontgomery on 2016-05-18
+ * 
  * Unit tests for: ../lib/AIUtils.js
  */
 
-var assert  = require('assert');
-var aiutils = require('../lib/AIUtils.js');
+var assert = require('assert');
+var st  = require("supertest");
+
+var AIUtils = require('../lib/AIUtils.js');
+var util = require('util');
 
 describe("AIUtils", function () {
-
-    var obj = null;
-
+    
+    var board = null;
+    var armies = null;
+    
     beforeEach(function (done) {
-
-        obj = {
-            board: [[0, 0, 0], [0, 0, 0], [0, 0, 0]],
-            size : 3,
-            last : {x: 0, y: 0, c: 0, pass: false}
-        };
-
+        board = [
+            [0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0]
+        ];
         done();
-
-    });
-
-    afterEach(function (done) {
-
-        obj = null;
-        done();
-
-    });
-
-    describe("#isValidBody()", function () {
-
-
-        it("should return false on falsy object", function () {
-            assert.equal(aiutils.isValidBody(null), false);
-            assert.equal(aiutils.isValidBody(), false);
-        });
-
-
-        it("should return false on no board", function () {
-            delete obj.board;
-            assert.equal(aiutils.isValidBody(obj), false);
-        });
-
-        it("should return false on null board", function () {
-            obj.board = null;
-            assert.equal(aiutils.isValidBody(obj), false);
-        });
-        
-        it("should return false on non-array board", function () {
-            obj.board = 5; //not an array
-            assert.equal(aiutils.isValidBody(obj), false);
-        });
-        
-        it("should return false for no size", function () {
-            delete obj.size;
-            assert.equal(aiutils.isValidBody(obj), false);
-        });
-
-        it("should return false for non-number size", function () {
-            obj.size = "foo"; //NaN
-            assert.equal(aiutils.isValidBody(obj), false);
-        });
-
-        it("should return false for size < 1", function () {
-            obj.size = 0;
-            assert.equal(aiutils.isValidBody(obj), false);
-        });
-
-        it("should return false for mismatch board and size", function () {
-            obj.board = [];
-            obj.size = 1;
-            assert.equal(aiutils.isValidBody(obj), false);
-        });
-
-        it("should return false for mismatch board and size 2", function () {
-            delete obj.board[2];
-            obj.size = 3; 
-            assert.equal(aiutils.isValidBody(obj), false);
-        });
-
-        it("should return false for mismatch inner board size", function () {
-            delete obj.board[2][0];
-            obj.size = 3;
-            assert.equal(aiutils.isValidBody(obj), false);
-        });
-
-        it("should return false for invalid board value", function () {
-            obj.board[2][0] = 20;
-            assert.equal(aiutils.isValidBody(obj), false);
-        });
-
-        it("should return false for falsy last", function () {
-            obj.last = null;
-            assert.equal(aiutils.isValidBody(obj), false);
-        });
-        
-        it("should return false for falsy last move x coordinate", function () {
-            obj.last.x = null;
-            assert.equal(aiutils.isValidBody(obj), false);
-        });
-
-        it("should return false for x coordinate less than 0", function () {
-            obj.last.x = -1;
-            assert.equal(aiutils.isValidBody(obj), false);
-        });
-
-        it("should return false for x coordinate out of bounds", function () {
-            obj.last.x = 3;
-            obj.size = 3;
-            assert.equal(aiutils.isValidBody(obj), false);
-        });
-        
-        it("should return false for falsy last move y coordinate", function () {
-            obj.last.y = null;
-            assert.equal(aiutils.isValidBody(obj), false);
-        });
-
-        it("should return false for negative y coordinate", function () {
-            obj.last.y = -1;
-            assert.equal(aiutils.isValidBody(obj), false);
-        });
-
-        it("should return false for y out of bounds", function () {
-            obj.last.y = 3;
-            obj.size = 3;
-            assert.equal(aiutils.isValidBody(obj), false);
-        });
-
-        it("should return false non-boolean pass", function () {
-            obj.last.pass = "foo";
-            assert.equal(aiutils.isValidBody(obj), false);
-        });
-
-        it("should return false for falsy color", function () {
-            delete obj.last.c;
-            assert.equal(aiutils.isValidBody(obj), false);
-        });
-        
-        it("should return false for invalid color ", function () {
-            obj.last.c = 20;
-            assert.equal(aiutils.isValidBody(obj), false);
-        });
-        
-        it("should return true on OK case", function(){
-            assert.equal(aiutils.isValidBody(obj), true);
-        });
-        
     });
     
+    afterEach(function (done) {
+        board = null;
+        armies = null;
+        done();
+    });
+    
+    describe("#findArmies", function () {
+        
+        it("should return no armies on a board with no armies", function () {
+            assert.equal(AIUtils.findArmies(board), false);
+        });
+        
+        it("should return the only army on the board, at the right position", function () {
+            
+            board[0][0] = 1;
+            armies = AIUtils.findArmies(board);
+            
+            assert.equal(armies.length, 1);
+            assert.deepEqual(armies[0].tokens[0].pos, [0,0]);
+        });
+        
+        it("should return an army with 4 liberties", function () {
+            board[1][1] = 1;
+            armies = AIUtils.findArmies(board);
+            
+            assert.equal(armies[0].liberties.length, 4);
+        });
+        
+        it("should return an army with 3 liberties, not 4", function () {
+            board[0][0] = 1;
+            board[0][1] = 1;
+            board[1][0] = 1;
+            armies = AIUtils.findArmies(board);
 
+            assert.equal(armies[0].liberties.length, 3);
+        });
+        
+        it("should return 2 armies, each length 1", function () {
+            board[0][1] = 1;
+            board[1][0] = 1;
+            armies = AIUtils.findArmies(board);
+
+            assert.equal(armies.length, 2);
+            assert.equal(armies[0].size, 1);
+            assert.equal(armies[1].size, 1);
+        });
+        
+        it("should return 2 armies, one of each colour, even though they are next to each other", function () {
+            board[0][0] = 1;
+            board[1][0] = 1;
+            board[2][0] = 1;
+            board[0][1] = 2;
+            board[1][1] = 2;
+            board[2][1] = 2;
+            armies = AIUtils.findArmies(board);
+            
+            assert(armies.length, 2);
+        });
+        
+        it("should return an army of size 40, despite it's complex structure", function () {
+            board = [
+                [0,0,2,2,2,2,2,0,0],
+                [0,0,2,0,0,0,2,2,2],
+                [2,2,2,0,2,0,0,0,2],
+                [0,0,2,0,2,2,2,0,2],
+                [0,2,2,2,2,0,2,0,2],
+                [0,2,0,2,0,0,2,2,2],
+                [0,2,0,2,2,2,2,0,0],
+                [0,2,0,2,0,0,0,0,0],
+                [0,2,2,2,0,0,0,0,0]
+            ];
+            armies = AIUtils.findArmies(board);
+            
+            assert(armies.length, 1);
+            assert(armies[0].size, 40);
+            assert(armies[0].liberties.length, 38);
+        });
+    });
 });
