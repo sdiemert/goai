@@ -2,12 +2,12 @@
 /**
  * Create by sdiemert on 2016-05-02
  *
- * Unit tests for: AIRandom.
+ * Unit tests for: AIMaximizeLiberties.
  */
 
 var assert   = require('assert');
-var AIMaximizeLiberties = require('../lib/AIMaximizeLiberties.js');
 var Board    = require('../lib/Board.js');
+var AIMaximizeLiberties = require('../lib/AIMaximizeLiberties.js');
 
 describe("AIMaximizeLiberties", function () {
 

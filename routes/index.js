@@ -8,26 +8,6 @@ var APIUtils = require('../lib/APIUtils.js');
 var AIRandom = require("../lib/AIRandom.js");
 var AIMaximizeLiberties = require("../lib/AIMaximizeLiberties.js");
 
-/* The structure of request.body is:
- * { board : [[number, ...], ...], size : number, last : { x : number, y : number, c : number, pass : boolean } } }
- *
- * Response payload will be:
- * { x : number, y : number, c: number, pass : Boolean }
- */
-
-// /**
-//  * Clears pieces off of the board that have been captured
-//  * 
-//  * @param board {Board.Board}
-//  * @param last {Board.Move}
-//  * @returns {Board.Board}
-//  */
-// function clearCaptures(board, last) {
-    
-    
-    
-// }
-
 router.use(function(req, res, next){
 
     if(!APIUtils.isValidBody(req.body)) {
@@ -41,27 +21,6 @@ router.use(function(req, res, next){
     next();
     
 });
-
-// THIS IS PROBABLY NOT NEEDED ANYMORE
-// router.use(function(req, res, next){
-
-//     var clearArmy = function(army) {
-//         console.log(util.inspect(army, false, null));
-//         for (var i = 0; i < army.tokens.length; i++) {
-//             var token = army.tokens[i].pos;
-//             req.data.board.board[token[0]][token[1]] = 0;
-//         }
-//     }
-
-//     var armies = APIUtils.findArmies(req.data.board);
-//     for (var i = 0; i < armies.length; i++) {
-//         if (armies[i].liberties.length == 0)
-//             clearArmy(armies[i]);
-//     }
-    
-//     next();
-
-// });
 
 /**
  * Route echo's the move that was sent but
@@ -78,7 +37,6 @@ router.post('/', function (req, res, next) {
 router.post("/random", function(req, res, next){
     
     var ai = new AIRandom('random');
-
     var move = ai.move(req.data.board, req.data.last);
 
     if (move) {
@@ -92,7 +50,6 @@ router.post("/random", function(req, res, next){
 router.post("/maxLibs", function(req, res, next){
     
     var ai = new AIMaximizeLiberties('maximizeLiberties');
-
     var move = ai.move(req.data.board, req.data.last);
 
     if (move) {
