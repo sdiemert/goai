@@ -1,0 +1,16 @@
+{
+    armies : [
+        {
+            colour: number
+            tokens: [
+                {
+                    colour: number,
+                    position: [number, number],
+                    liberties: [ [number, number], ... ],
+                }, ...
+            ],
+            liberties: [ [number, number], ... ],
+            size: number
+        }, ...
+    ]
+}

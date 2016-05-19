@@ -32,7 +32,6 @@ describe("APIUtils", function () {
 
     describe("#isValidBody()", function () {
 
-
         it("should return false on falsy object", function () {
             assert.equal(apiutils.isValidBody(null), false);
             assert.equal(apiutils.isValidBody(), false);
