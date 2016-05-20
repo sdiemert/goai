@@ -47,7 +47,7 @@ describe("AIUtils", function () {
             
             board[0][0] = 1;
             armies = AIUtils.findArmies(board);
-            console.log(armies);
+            
             assert.equal(armies.length, 1);
             assert.deepEqual(armies[0].tokens[0].pos, [0,0]);
         });

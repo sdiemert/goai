@@ -12,16 +12,18 @@ At this point, AIs are state-less, they do not store a history of requests.
  
 ## Use
 
-Each HTTP route is serviced by a different AI. The current routes are: 
+Each HTTP route is serviced by a different AI or Util. The current routes are: 
   
 * `/` : Default route, echos the request by returning the last move. 
-* `/random` : Randomly selects an empty spot on the board and places a token.
-* `/maxLibs` : Selects an empty spot with the highest possible liberties.
+* `/ai/random` : Randomly selects an empty spot on the board and places a token.
+* `/ai/maxLibs` : Selects an empty spot with the highest possible liberties.
+* `/util/findArmies` : Takes a board and returns an object outlining all of the armies
    
-Access the AI by making an **HTTP POST** request to the respective route. 
+Access the API by making an **HTTP POST** request to the respective route. 
 
+### Input JSON
 The body of the request should be JSON string with the following structure: 
-   
+
 ```JSON
 {
     "size" : number,
@@ -49,9 +51,11 @@ The fields are:
     + If the `last.c` is 0 then the AI assume it is the first move of the game and place a black token. 
 * `last.pass` : a boolean indicating if the previous move was a "pass". 
     + The AI will ignore the `last.x` and `last.y` fields.
-    + The `last.c` field must be set. 
+    + The `last.c` field must be set.
+    
+### Output JSON
 
-The AI will return a JSON string with the following structure: 
+The AI APIs will return a JSON string with the following structure: 
 
 ```JSON
     {
@@ -68,7 +72,43 @@ The fields are:
 * `y` : the y coordinate of the computed move.
 * `c` : the color of the token being placed (0 - None, 1 - Black, or 2 - White)
 * `pass` : true if the AI passed, false otherwise. 
-    + if the AI passed then the `c` field will be set to 0 (None). 
+    + if the AI passed then the `c` field will be set to 0 (None).
+    
+---
+
+The Util APIs will return **different** JSON strings each, depending on their functionality.
+
+`/util/findArmies`
+
+```JSON
+{
+    "armies" : [
+        {
+            "colour": number
+            "tokens": [
+                {
+                    "colour": number,
+                    "position": [number, number],
+                    "liberties": [ [number, number], ... ],
+                }, ...
+            ],
+            "liberties": [ [number, number], ... ],
+            "size": number
+        }, ...
+    ]
+}
+
+```
+
+* `armies` : an encapsulating field to contain the object 
+* `colour` : the colour of the army
+* `tokens` : the list of all of the tokens that make up the army
+	+ `colour` : the colour of the token (always the same as the army)
+	+ `position` : the x,y position of the token
+	+ `liberties` : the liberties of the token
+* `liberties` : the liberties of the army (**NOT** the union of all token liberties)
+* `size` : the size of the army
+
     
 ## Design and Implementation Guide
 
