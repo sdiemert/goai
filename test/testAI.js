@@ -32,7 +32,7 @@ describe("AI", function () {
         });
     });
 
-    describe("#getNextMoveColor()", function(){
+    describe("#getNextMovecolour()", function(){
 
         var lastMove = null;
 
@@ -47,23 +47,23 @@ describe("AI", function () {
         });
 
         it("should return BLACK on WHITE", function(){
-            lastMove.color = Board.WHITE; 
-            assert.equal(subject.getNextMoveColor(lastMove), Board.BLACK);
+            lastMove.colour = Board.WHITE; 
+            assert.equal(subject.getNextMovecolour(lastMove), Board.BLACK);
         });
 
         it("should return WHITE on BLACK", function(){
-            lastMove.color = Board.BLACK;
-            assert.equal(subject.getNextMoveColor(lastMove), Board.WHITE);
+            lastMove.colour = Board.BLACK;
+            assert.equal(subject.getNextMovecolour(lastMove), Board.WHITE);
         });
         
         it("should return BLACK on NONE", function(){
-            lastMove.color = Board.NONE;
-            assert.equal(subject.getNextMoveColor(lastMove), Board.BLACK);
+            lastMove.colour = Board.NONE;
+            assert.equal(subject.getNextMovecolour(lastMove), Board.BLACK);
         });
 
         it("should return BLACK without by default", function(){
-            lastMove.color = null;
-            assert.equal(subject.getNextMoveColor(lastMove), Board.BLACK);
+            lastMove.colour = null;
+            assert.equal(subject.getNextMovecolour(lastMove), Board.BLACK);
         });
         
     });

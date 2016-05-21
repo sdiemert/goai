@@ -7,6 +7,7 @@
 
 var assert = require('assert');
 var st  = require("supertest");
+var util = require('util');
 
 describe("API Tests", function () {
 
@@ -50,7 +51,7 @@ describe("API Tests", function () {
         it("should fail on incorrect input", function (done) {
 
             delete obj.last.x;
-
+            
             api.post("/")
                 .send(obj)
                 .expect(400)
@@ -61,10 +62,10 @@ describe("API Tests", function () {
         
     });
     
-    describe("/random", function(){
+    describe("/ai/random", function(){
         
          it("should return a valid move", function (done) {
-            api.post("/random")
+            api.post("/ai/random")
                 .send(obj)
                 .expect(200)
                 .end(function(err, res){
@@ -83,7 +84,7 @@ describe("API Tests", function () {
             
             obj.board = [[0,0,0]];
 
-            api.post("/random")
+            api.post("/ai/random")
                 .send(obj)
                 .expect(400)
                 .end(function(err, res){
@@ -94,10 +95,10 @@ describe("API Tests", function () {
         
     });
 
-    describe("/maxLibs", function(){
+    describe("/ai/maxLibs", function(){
         
          it("should return a valid move", function (done) {
-            api.post("/maxLibs")
+            api.post("/ai/maxLibs")
                 .send(obj)
                 .expect(200)
                 .end(function(err, res){
@@ -116,7 +117,42 @@ describe("API Tests", function () {
             
             obj.board = [[0,0,0]];
 
-            api.post("/maxLibs")
+            api.post("/ai/maxLibs")
+                .send(obj)
+                .expect(400)
+                .end(function(err, res){
+                    done(); 
+            });
+            
+        });
+        
+    });
+    
+    describe("/util/findArmies", function(){
+        
+         it("should return a valid output", function (done) {
+            api.post("/util/findArmies")
+                .send(obj)
+                .expect(200)
+                .end(function(err, res){
+                    var armies = res.body.armies;
+                    assert.equal(err, null);
+                    assert(armies.length == 1);
+                    assert(armies[0].colour == 1);
+                    assert(armies[0].size == 1);
+                    assert(armies[0].liberties.length == 4);
+                    assert(armies[0].tokens[0].colour == 1);  
+                    assert.deepEqual(armies[0].tokens[0].position, [1,1]);
+                    assert(armies[0].tokens[0].liberties.length == 4);
+                    done(err);
+                });
+        });
+        
+        it("should fail on incorrect input", function(done){
+            
+            obj.board = [[0,0,0]];
+
+            api.post("/util/findArmies")
                 .send(obj)
                 .expect(400)
                 .end(function(err, res){

@@ -50,11 +50,11 @@ describe("AIRandom", function () {
         it("it should pass if last move was pass", function (done) {
 
             lastMove.pass = true; 
-            lastMove.color = Board.WHITE; 
+            lastMove.colour = Board.WHITE; 
             
             var m = AI.move(board, lastMove);
             
-            assert.equal(m.color, Board.BLACK);
+            assert.equal(m.colour, Board.BLACK);
             assert.equal(m.pass, true);
 
             done();
@@ -64,13 +64,13 @@ describe("AIRandom", function () {
         it("it should pass if the board is full", function (done) {
 
             lastMove.pass = false; 
-            lastMove.color = Board.WHITE;
+            lastMove.colour = Board.WHITE;
 
             board.board = [[1,1,1], [2,2,2], [1,1,1]];
 
             var m = AI.move(board, lastMove);
             
-            assert.equal(m.color, Board.BLACK);
+            assert.equal(m.colour, Board.BLACK);
             assert.equal(m.pass, true);
 
             done();
@@ -80,11 +80,11 @@ describe("AIRandom", function () {
         it("should pick a spot on the board", function (done) {
 
             lastMove.pass = false; 
-            lastMove.color = Board.WHITE;
+            lastMove.colour = Board.WHITE;
 
             var m = AI.move(board, lastMove);
             
-            assert.equal(m.color, Board.BLACK);
+            assert.equal(m.colour, Board.BLACK);
             assert.equal(m.pass, false);
             assert(m.x < board.size);
             assert(m.y < board.size);
@@ -95,13 +95,13 @@ describe("AIRandom", function () {
 
         });
 
-        it("should default to BLACK token if no last move color provided", function(){
+        it("should default to BLACK token if no last move colour provided", function(){
             
             lastMove.pass = false;
-            lastMove.color = Board.NONE; 
+            lastMove.colour = Board.NONE; 
             var m = AI.move(board, lastMove);
             
-            assert.equal(m.color, Board.BLACK);
+            assert.equal(m.colour, Board.BLACK);
             assert.equal(m.pass, false);
             assert(m.x < board.size);
             assert(m.y < board.size);

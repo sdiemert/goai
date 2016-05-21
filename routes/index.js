@@ -4,6 +4,7 @@ var router  = express.Router();
 var util = require('util');
 
 var APIUtils = require('../lib/APIUtils.js');
+var AIUtils = require('../lib/AIUtils.js');
 
 var AIRandom = require("../lib/AIRandom.js");
 var AIMaximizeLiberties = require("../lib/AIMaximizeLiberties.js");
@@ -24,7 +25,7 @@ router.use(function(req, res, next){
 
 /**
  * Route echo's the move that was sent but
- * with the opposite color token.
+ * with the opposite colour token.
  */
 router.post('/', function (req, res, next) {
     
@@ -34,7 +35,7 @@ router.post('/', function (req, res, next) {
     
 });
 
-router.post("/random", function(req, res, next){
+router.post("/ai/random", function(req, res, next){
     
     var ai = new AIRandom('random');
     var move = ai.move(req.data.board, req.data.last);
@@ -47,7 +48,7 @@ router.post("/random", function(req, res, next){
 
 });
 
-router.post("/maxLibs", function(req, res, next){
+router.post("/ai/maxLibs", function(req, res, next){
     
     var ai = new AIMaximizeLiberties('maximizeLiberties');
     var move = ai.move(req.data.board, req.data.last);
@@ -57,6 +58,19 @@ router.post("/maxLibs", function(req, res, next){
     } else {
         return res.status(500).send("Error");
     }
+
+});
+
+router.post("/util/findArmies", function(req, res, next){
+    
+    var armies = AIUtils.findArmies(req.data.board.board);
+    var final = { armies : [] };
+    
+    for (var i = 0; i < armies.length; i++) {
+        final.armies.push(armies[i].toObject());
+    }
+    
+    return res.status(200).json(final);
 
 });
 
