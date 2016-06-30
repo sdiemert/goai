@@ -8,6 +8,8 @@ var AIUtils = require('../lib/AIUtils.js');
 
 var AIRandom = require("../lib/AIRandom.js");
 var AIMaximizeLiberties = require("../lib/AIMaximizeLiberties.js");
+var AIAttackEnemy = require("../lib/AIAttackEnemy.js");
+var AIFormEyes = require("../lib/AIFormEyes.js");
 
 router.use(function(req, res, next){
 
@@ -51,6 +53,32 @@ router.post("/ai/random", function(req, res, next){
 router.post("/ai/maxLibs", function(req, res, next){
     
     var ai = new AIMaximizeLiberties('maximizeLiberties');
+    var move = ai.move(req.data.board, req.data.last);
+
+    if (move) {
+        return res.status(200).json(move.toObject());
+    } else {
+        return res.status(500).send("Error");
+    }
+
+});
+
+router.post("/ai/attackEnemy", function(req, res, next){
+    
+    var ai = new AIAttackEnemy('attackEnemy');
+    var move = ai.move(req.data.board, req.data.last);
+
+    if (move) {
+        return res.status(200).json(move.toObject());
+    } else {
+        return res.status(500).send("Error");
+    }
+
+});
+
+router.post("/ai/formEyes", function(req, res, next){
+    
+    var ai = new AIFormEyes('formEyes');
     var move = ai.move(req.data.board, req.data.last);
 
     if (move) {
