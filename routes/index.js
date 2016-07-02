@@ -80,7 +80,7 @@ router.post("/ai/formEyes", function(req, res, next){
     
     var ai = new AIFormEyes('formEyes');
     var move = ai.move(req.data.board, req.data.last);
-    console.log(move);
+
     if (move) {
         return res.status(200).json(move.toObject());
     } else {
