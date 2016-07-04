@@ -18,6 +18,8 @@ Each HTTP route is serviced by a different AI or Util. The current routes are:
 * `/ai/random` : Randomly selects an empty spot on the board and places a token.
 * `/ai/maxLibs` : Selects an empty spot with the highest possible liberties.
 * `/util/findArmies` : Takes a board and returns an object outlining all of the armies
+* `/ai/attackEnemy` : Attempts to attack enemy tokens, this is an offensive AI. 
+* `/ai/formEyes` : Attempts to form eyes, these are structures that make your territory/position on the board much stronger. This is a defensive AI. 
    
 Access the API by making an **HTTP POST** request to the respective route. 
 
