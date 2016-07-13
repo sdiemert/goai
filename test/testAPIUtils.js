@@ -151,7 +151,17 @@ describe("APIUtils", function () {
         it("should return true on OK case", function(){
             assert.equal(apiutils.isValidBody(obj), true);
         });
-        
+
+        it("should return false if not pass and last move invalid", function(){
+            obj.last.c = 1;
+            assert.equal(apiutils.isValidBody(obj), false);
+        });
+
+        it("should return true if pass regardless of last move", function(){
+            obj.last.c = 1;
+            obj.last.pass = true;
+            assert.equal(apiutils.isValidBody(obj), true);
+        });
     });
     
 
