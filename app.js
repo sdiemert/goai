@@ -17,7 +17,7 @@ function makeServer(quiet) {
 
     app.use('/', routes);
 
-    var server = app.listen(3000, function () {
+    var server = app.listen(process.env.PORT || 3000, function () {
         var port = server.address().port;
         if(!quiet) console.log('Server listening at port %s', port);
     });
