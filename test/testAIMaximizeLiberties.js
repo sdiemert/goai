@@ -147,17 +147,6 @@ describe("AIMaximizeLiberties", function () {
             var m = AI.move(board, lastMove);
             assert.deepEqual(m, new Board.Move(0, 0, 2, false));
         });
-
-        it("should return the only move with 0 liberty", function(){
-            lastMove = new Board.Move(2, 2, Board.BLACK, false);
-            board = new Board.Board(
-                [[0,1,1],[1,1,1],[1,1,1]],
-                3
-            );
-
-            var m = AI.move(board, lastMove);
-            assert.deepEqual(m, new Board.Move(0, 0, 2, false));
-        });
         
     });
 
