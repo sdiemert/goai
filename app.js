@@ -11,7 +11,7 @@ function makeServer(quiet) {
     var routes     = require('./routes/index');
     var app        = express();
 
-    if(!quiet) app.use(logger('dev'));
+    if(!quiet) app.use(logger('common'));
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: false}));
 
